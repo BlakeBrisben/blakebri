@@ -22,22 +22,34 @@ class Item {
 }
 
 class Player {
-    //Insert your code here.
-    double money;
-    private List<Item> itemList;
 
     public Player(double money) {
-        this.money = money;
-        itemList = new ArrayList<>();
+        Inventory.money = money;
+        Inventory.itemList = new ArrayList<>();
+    }
+
+    private static class Inventory {
+        static double money;
+        static List<Item> itemList;
+        static List<Item> equipped;
+        
+    }
+
+    public double getMoney(){
+        return Inventory.money;
+    }
+
+    public boolean spendMoney(double amount){
+        return removeMoney(amount);
     }
 
     public void addMoney(double amount){
-        money += amount;
+        Inventory.money += amount;
     }
 
     public boolean removeMoney(double amount){
-        if(money >= amount){
-            money -= amount;
+        if(Inventory.money >= amount){
+            Inventory.money -= amount;
             return true;
         }else{
             return false;
@@ -45,22 +57,39 @@ class Player {
 
     }
 
+    public void acquireItem(Item item){
+        addItem(item);
+    }
+
     public void addItem(Item item){
-        itemList.add(item);
+        Inventory.itemList.add(item);
+    }
+
+    public void relinquishItem(Item item){
+        removeItem(item);
     }
 
     public void removeItem(Item item){
-        int index = itemList.indexOf(item);
-        itemList.remove(index);
+        int index = Inventory.itemList.indexOf(item);
+        Inventory.itemList.remove(index);
     }
 
     public Item getItemByName(String itemName){
-        for(Item item : itemList){
+        for(Item item : Inventory.itemList){
             if(item.getName().equals(itemName)){
                 return item;
             }
         }
         return null;
+    }
+
+    public void equipItem(Item item){
+        Inventory.equipped.add(item);
+        removeItem(item);
+    }
+
+    public void consumeItem(Item item){
+        removeItem(item);
     }
 
 }                       
