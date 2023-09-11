@@ -31,6 +31,7 @@ class Player {
     private static class Inventory {
         static double money;
         static List<Item> itemList;
+        static List<Item> equipped;
         
     }
 
@@ -80,6 +81,15 @@ class Player {
             }
         }
         return null;
+    }
+
+    public void equipItem(Item item){
+        Inventory.equipped.add(item);
+        removeItem(item);
+    }
+
+    public void consumeItem(Item item){
+        removeItem(item);
     }
 
 }                       
